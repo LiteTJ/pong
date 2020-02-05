@@ -5,6 +5,8 @@ class Ball extends Sprite
     #bounceFrameCounter = 0;
     #deltaBounce = 8;
 
+    alive;
+
     constructor(radius, speed)
     {
         super(img.ball, radius*2, radius*2);
@@ -47,6 +49,25 @@ class Ball extends Sprite
         return SAT.testPolygonCircle(box.hitbox, this.hitbox);
     }
 
+    collideWithPaddle(paddle)
+    {
+        if(this.#bounceFrameCounter > this.#deltaBounce)
+        {
+            this._bounce(paddle.angle);
+            //Deviate angle a bit after each bounce with the paddle for variation
+            this.#angle += Math.random() * 2*Math.PI*0.1 - Math.PI*0.1;
+
+            this.#bounceFrameCounter = 0;
+        }
+    }
+
+    init()
+    {
+        this.x = canvas.width/2 - this.width/2;
+        this.y = canvas.height/4;
+        this.alive = true;
+    }
+
     tick(boxes)
     {
         this.x += this.xVel;
@@ -59,19 +80,20 @@ class Ball extends Sprite
         boxes.forEach(box => {
             if(this._checkCollision(box))
             {
-                if(box.id === "paddle")
+                if(box.properties.includes("harmful"))
                 {
-                    if(this.#bounceFrameCounter > this.#deltaBounce)
+                    this.alive = false;
+                }
+
+                if(box.properties.includes("solid"))
+                {
+                    if(box.id === "paddle")
+                    {
+                        this.collideWithPaddle(box);
+                    } else
                     {
                         this._bounce(box.angle);
-                        //Deviate angle a bit after each bounce with the paddle for variation
-                        this.#angle += Math.random() * 2*Math.PI*0.1 - Math.PI*0.1;
-
-                        this.#bounceFrameCounter = 0;
                     }
-                } else
-                {
-                    this._bounce(box.angle);
                 }
             }
         });

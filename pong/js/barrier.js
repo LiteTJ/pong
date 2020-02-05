@@ -1,8 +1,9 @@
 class Barrier extends Sprite
 {
 	#rotation;
+	#properties;
 
-	constructor(width, rotation, x, y, thickness)
+	constructor(width, rotation, x, y, thickness, properties)
 	{
 		let w, h;
 
@@ -20,9 +21,11 @@ class Barrier extends Sprite
 
 		super(img.null, w, h, x, y);
 		this.#rotation = rotation;
+		this.#properties = properties;
 	}
 
 	get id() { return "barrier"; }
+	get properties() { return this.#properties; }
 
 	get angle()
 	{

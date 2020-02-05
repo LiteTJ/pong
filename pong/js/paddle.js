@@ -1,12 +1,12 @@
 class Paddle extends Barrier
 {
-    #xAcc = 1.6;
+    #xAcc = 1.6; //Make this responsive to scale
     #xVel = 0;
     #resistance = 0.12;
 
     constructor(width, x, y)
     {
-        super(width, "horizontal", x, y, width/7);
+        super(width, "horizontal", x, y, width/7, ["solid"]);
         this.setImage(img.paddle);
     }
 

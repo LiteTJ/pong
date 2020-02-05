@@ -16,15 +16,6 @@ img.paddle.src = "img/paddle.svg";
 
 let GAME, KEYS = [];
 
-window.onload = () => {
-    console.log("Hello world!");
-    console.log("Revamp: ball must bounce off something else before bouncing with paddle again");
-    console.log("Push this to GitHub");
-
-    init();
-    tick();
-}
-
 function init()
 {
 	//Initialise objects
@@ -33,8 +24,7 @@ function init()
 		KEYS.push(false);
 	}
 
-    GAME = new Game();
-    GAME.init();
+    reset();
 
     //Set event handlers
     document.onkeyup = (e) => {
@@ -46,11 +36,50 @@ function init()
     }
 }
 
+function reset()
+{
+    GAME = new Game();
+    GAME.init();
+}
+
 function tick()
 {
+    let toTick = true;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    GAME.tick();
+    switch(GAME.state)
+    {
+        case "playing":
+            GAME.tick();
+            break;
 
-    window.requestAnimationFrame(tick);
+        case "game over":
+            GAME.tick();
+            GUI.drawGameOver();
+            toTick = false;
+            break;
+    }
+
+    if(toTick) window.requestAnimationFrame(tick);
+}
+
+window.onload = () => {
+    console.log("Pong by LiteTJ");
+    console.log("---------------------------------------------------------");
+    console.log("Revamp: ball must bounce off something else before bouncing with paddle again");
+
+    init();
+    tick();
+}
+
+window.onkeypress = (e) => {
+    if(e.code === "Space")
+    {
+        if(GAME.state === "game over")
+        {
+            reset();
+            tick();
+        }
+    }
 }
