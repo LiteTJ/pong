@@ -56,7 +56,7 @@ function tick()
 
         case "game over":
             GAME.tick();
-            GUI.drawGameOver();
+            GUI.drawGameOver(GAME.scale);
             toTick = false;
             break;
     }

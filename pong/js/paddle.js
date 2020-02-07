@@ -1,6 +1,6 @@
 class Paddle extends Barrier
 {
-    #xAcc = 1.6; //Make this responsive to scale
+    #xAccConstant = 1.6;
     #xVel = 0;
     #resistance = 0.12;
 
@@ -12,24 +12,29 @@ class Paddle extends Barrier
 
     get id() { return "paddle"; }
 
+    getAcc(scale)
+    {
+        return this.#xAccConstant * scale/24;
+    }
+
     _constrainPosition()
     {
         if(this.x < 0) this.x = 0;
         if(this.x > canvas.width - this.width) this.x = canvas.width - this.width;
     }
 
-    tick()
+    tick(scale)
     {
         //LEFT key pressed
         if(KEYS[37])
         {
-            this.#xVel -= this.#xAcc;
+            this.#xVel -= this.getAcc(scale);
         }
 
         //RIGHT key pressed
         if(KEYS[39])
         {
-            this.#xVel += this.#xAcc;
+            this.#xVel += this.getAcc(scale);
         }
 
         this.#xVel *= (1 - this.#resistance);

@@ -49,7 +49,7 @@ class Game
     tick()
     {
         //Business Logic
-        this.player.tick();
+        this.player.tick(this.scale);
         this.ball.tick(this.boxes);
 
         if(!this.ball.alive)
