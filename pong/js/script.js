@@ -67,7 +67,7 @@ function tick()
 window.onload = () => {
     console.log("Pong by LiteTJ");
     console.log("---------------------------------------------------------");
-    console.log("Revamp: ball must bounce off something else before bouncing with paddle again");
+    console.log("Thank you for playing the game!");
 
     init();
     tick();

@@ -2,8 +2,8 @@ class Ball extends Sprite
 {
     #speed;
     #angle;
-    #bounceFrameCounter = 0;
     #deltaBounce = 8;
+    #previousCollisionObject;
 
     alive;
 
@@ -49,15 +49,12 @@ class Ball extends Sprite
         return SAT.testPolygonCircle(box.hitbox, this.hitbox);
     }
 
-    collideWithPaddle(paddle)
+    makeBounce(box)
     {
-        if(this.#bounceFrameCounter > this.#deltaBounce)
+        if(box !== this.#previousCollisionObject)
         {
-            this._bounce(paddle.angle);
-            //Deviate angle a bit after each bounce with the paddle for variation
-            this.#angle += Math.random() * 2*Math.PI*0.1 - Math.PI*0.1;
-
-            this.#bounceFrameCounter = 0;
+            this._bounce(box.angle);
+            this.#previousCollisionObject = box;
         }
     }
 
@@ -73,28 +70,12 @@ class Ball extends Sprite
         this.x += this.xVel;
         this.y += this.yVel;
 
-        this.#bounceFrameCounter++;
-
-        //Checks collision with walls and ball bounces
-        //Code prevents ball getting stuck in paddle
         boxes.forEach(box => {
             if(this._checkCollision(box))
             {
-                if(box.properties.includes("harmful"))
-                {
-                    this.alive = false;
-                }
+                if(box.properties.includes("harmful")) this.alive = false;
 
-                if(box.properties.includes("solid"))
-                {
-                    if(box.id === "paddle")
-                    {
-                        this.collideWithPaddle(box);
-                    } else
-                    {
-                        this._bounce(box.angle);
-                    }
-                }
+                if(box.properties.includes("solid")) this.makeBounce(box);
             }
         });
     }
