@@ -4,6 +4,7 @@ class Game
 
     ball;
     barriers = [];
+    powerups = [];
     state;
 
     constructor()
@@ -12,6 +13,7 @@ class Game
 
         this.ball = new Ball(this.#scale/2, this.#scale*0.3);
         this.player = new Paddle(this.#scale*4, canvas.width/2, this.playerY);
+        this.powerups.push(new Powerup(this.#scale*2));
     }
 
     get scale() { return this.#scale; }
@@ -25,7 +27,7 @@ class Game
     {
         let boxes = [];
 
-        boxes.push(this.player, this.barriers);
+        boxes.push(this.player, this.barriers, this.powerups);
 
         return [].concat(...boxes);
     }
@@ -40,6 +42,16 @@ class Game
         );
     }
 
+    _removeInactivePowerups()
+    {
+        this.powerups.forEach((powerup, i) => {
+            if(powerup.properties.includes("inactive"))
+            {
+                this.powerups.splice(i, 1);
+            }
+        });
+    }
+
     init()
     {
         this.ball.init();
@@ -49,6 +61,8 @@ class Game
     tick()
     {
         //Business Logic
+        this._removeInactivePowerups();
+
         this.player.tick(this.scale);
         this.ball.tick(this.boxes);
 
@@ -63,6 +77,9 @@ class Game
         });
 
         this.player.draw();
+        this.powerups.forEach(powerup => {
+            powerup.draw();
+        });
         this.ball.draw();
     }
 }

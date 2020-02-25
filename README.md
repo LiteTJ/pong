@@ -10,7 +10,7 @@ Pong in JavaScript Canvas
 **Inkscape** is a free and open-source vector graphics editor.
 
 ## Credits
-None
+- https://fontawesome.com/license
 
 ---
 *LiteTJ*

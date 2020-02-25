@@ -39,6 +39,9 @@ class Ball extends Sprite
         return new SAT.Circle(new SAT.Vector(this.xCentre, this.yCentre), this.width/2);
     }
 
+    get speed() { return this.#speed; }
+    set speed(v) { this.#speed = v; }
+
     _bounce(objectAngle)
     {
         this.#angle = 2 * objectAngle - this.#angle;
@@ -74,7 +77,7 @@ class Ball extends Sprite
             if(this._checkCollision(box))
             {
                 if(box.properties.includes("harmful")) this.alive = false;
-
+                if(box.properties.includes("powerup")) box.activatePowerup(this);
                 if(box.properties.includes("solid")) this.makeBounce(box);
             }
         });

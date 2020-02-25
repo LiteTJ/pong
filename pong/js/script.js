@@ -12,6 +12,9 @@ img.ball.src = "img/ball.svg";
 
 img.paddle = new Image();
 img.paddle.src = "img/paddle.svg";
+
+img.powerup_speed = new Image();
+img.powerup_speed.src = "img/powerup-speed.svg";
 /*-------------------------End of images-------------------------*/
 
 let GAME, KEYS = [];
@@ -68,6 +71,7 @@ window.onload = () => {
     console.log("Pong by LiteTJ");
     console.log("---------------------------------------------------------");
     console.log("Thank you for playing the game!");
+    console.log("To do: From time to time, remove inactive powerups");
 
     init();
     tick();
