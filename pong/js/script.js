@@ -71,7 +71,6 @@ window.onload = () => {
     console.log("Pong by LiteTJ");
     console.log("---------------------------------------------------------");
     console.log("Thank you for playing the game!");
-    console.log("To do: From time to time, remove inactive powerups");
 
     init();
     tick();

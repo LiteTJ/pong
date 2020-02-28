@@ -2,12 +2,13 @@ class Powerup extends Sprite
 {
     #IDS = ["speed"];
 
+    #duration = 5000;
     #id;
     #properties = ["powerup"];
 
-    constructor(width)
+    constructor(width, x, y)
     {
-        super(img.null, width, width, 100, 100);
+        super(img.null, width, width, x, y);
         this.#id = this.#IDS[Math.floor(Math.random() * this.#IDS.length)];
         this._updateImage();
     }
@@ -24,13 +25,19 @@ class Powerup extends Sprite
         if(this.#id === "speed") this.setImage(img.powerup_speed);
     }
 
+    _powerupSpeed(ball)
+    {
+        let multiplier = 2;
+
+        ball.speed *= multiplier;
+        setTimeout(() => {
+            ball.speed /= multiplier;
+        }, this.#duration);
+    }
+
     activatePowerup(ball)
     {
-        //Speed boost test for 5 seconds
-        ball.speed *= 2;
-        setTimeout(() => {
-            ball.speed /= 2;
-        }, 5000);
+        if(this.#id === "speed") this._powerupSpeed(ball);
 
         this.#properties.push("inactive");
     }
