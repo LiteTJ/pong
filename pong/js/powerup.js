@@ -1,6 +1,6 @@
 class Powerup extends Sprite
 {
-    #IDS = ["speed"];
+    #IDS = ["speed", "ghost"];
 
     #duration = 5000;
     #id;
@@ -23,6 +23,7 @@ class Powerup extends Sprite
     _updateImage()
     {
         if(this.#id === "speed") this.setImage(img.powerup_speed);
+        if(this.#id === "ghost") this.setImage(img.powerup_ghost);
     }
 
     _powerupSpeed(ball)
@@ -35,9 +36,20 @@ class Powerup extends Sprite
         }, this.#duration);
     }
 
+    _powerupGhost(ball)
+    {
+        let multiplier = 0.1;
+
+        ball.alpha *= multiplier;
+        setTimeout(() => {
+            ball.alpha /= multiplier;
+        }, this.#duration);
+    }
+
     activatePowerup(ball)
     {
         if(this.#id === "speed") this._powerupSpeed(ball);
+        if(this.#id === "ghost") this._powerupGhost(ball);
 
         this.#properties.push("inactive");
     }

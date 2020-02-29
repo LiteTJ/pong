@@ -6,6 +6,7 @@ class Sprite
     height;
     x;
     y;
+    alpha = 1;
 
     constructor(img, width, height, x = 0, y = 0)
     {
@@ -24,6 +25,7 @@ class Sprite
     draw()
     {
         ctx.save();
+        ctx.globalAlpha = this.alpha;
         ctx.drawImage(this.#img, this.x, this.y, this.width, this.height);
         ctx.restore();
     }

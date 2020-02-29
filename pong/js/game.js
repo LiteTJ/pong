@@ -2,7 +2,8 @@ class Game
 {
     #scale = Math.min(canvas.width, canvas.height) / 24;
     #deltaSpawnTime = 10000;
-    #lastSpawnTime = Date.now();
+    #lastSpawnTime;
+    #startTime;
 
     ball;
     barriers = [];
@@ -15,6 +16,9 @@ class Game
 
         this.ball = new Ball(this.#scale/2, this.#scale*0.3);
         this.player = new Paddle(this.#scale*4, canvas.width/2, this.playerY);
+
+        this.#startTime = Date.now();
+        this.#lastSpawnTime = this.#startTime;
     }
 
     get scale() { return this.#scale; }
@@ -22,6 +26,11 @@ class Game
     get playerY()
     {
         return canvas.height - this.#scale*4;
+    }
+
+    get duration()
+    {
+        return (Date.now() - this.#startTime) / 1000;
     }
 
     get boxes()
@@ -36,10 +45,10 @@ class Game
     _createBarriers(padding)
     {
         this.barriers.push(
-            new Barrier(this.#scale*24 - padding*2, "horizontal",padding, padding, this.#scale/6, ["solid"]),
-            new Barrier(this.#scale*24 - padding*2, "vertical",this.#scale*24 - padding, padding, this.#scale/6, ["solid"]),
-            new Barrier(this.#scale*24 - padding*2, "horizontal",padding, this.#scale*24 - padding, this.#scale/6, ["harmful"]),
-            new Barrier(this.#scale*24 - padding*2, "vertical",padding, padding, this.#scale/6, ["solid"])
+            new Barrier(this.#scale*24 - padding*2, "horizontal", padding, padding, this.#scale/6, ["solid"]),
+            new Barrier(this.#scale*24 - padding*2, "vertical", this.#scale*24 - padding, padding, this.#scale/6, ["solid"]),
+            new Barrier(this.#scale*24 - padding*2, "horizontal", padding, this.#scale*24 - padding, this.#scale/6, ["harmful"]),
+            new Barrier(this.#scale*24 - padding*2, "vertical", padding, padding, this.#scale/6, ["solid"])
         );
     }
 

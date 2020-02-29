@@ -14,7 +14,10 @@ img.paddle = new Image();
 img.paddle.src = "img/paddle.svg";
 
 img.powerup_speed = new Image();
-img.powerup_speed.src = "img/powerup-speed.svg";
+img.powerup_speed.src = "img/powerups/powerup-speed.svg";
+
+img.powerup_ghost = new Image();
+img.powerup_ghost.src = "img/powerups/powerup-ghost.svg";
 /*-------------------------End of images-------------------------*/
 
 let GAME, KEYS = [];
@@ -59,7 +62,7 @@ function tick()
 
         case "game over":
             GAME.tick();
-            GUI.drawGameOver(GAME.scale);
+            GUI.drawGameOver(GAME.duration, GAME.scale);
             toTick = false;
             break;
     }
